@@ -7,24 +7,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script src="../ajax.php"></script>
+
     <title>Title</title>
 </head>
 <body>
 
     <script>
-
-        function Ajaxfunction(){
+//einerseits der Teil im HTML-Bereich, der den Aufruf zum Webserver startet
+//Auf dem Webserver eine Anwendung, die je nach Fall Inhalte zurückliefert
+//Wieder im HTML-Bereich ein Teil, der das zurückgelieferte Teil integriert und anzeigt
+        function myAjax(){
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    //letzte Aufgabe hier bearbeiten
-                    alert(this.responseText);
+                    // hier bearbeiten
+                    document.getElementById("demo").innerHTML =this.responseText;
                 }
             };
             xmlhttp.open("GET", "ajax.php?q=", true);
             xmlhttp.send();
         }
+
+
     </script>
     <!--<f: for each="{arrayname}" as ="Ball">-->
     <!--<li>{Ball}</li>-->
@@ -42,15 +46,17 @@
             <div class="col-sm-5">
                 <h3>Bälle Liste: </h3>
                 <u>
-                    <li>{Fussballname}</li>
-                    <li>{Fussballmaterial}</li>
-                    <li>{Fussballdurchmesser}</li>
+                    <li>Art: {Fussballname}</li>
+                    <li>Material: {Fussballmaterial}</li>
+                    <li>Durchmesser: {Fussballdurchmesser}</li>
+                    <li>Volumen: {Fussballvolumen}</li>
                 </u>
             </div>
 
             <div class="col-sm-5">
                 <h3>Ajax </h3>
-                <button onclick="Ajaxfunction()" type="button" class="btn btn-info">Add</button>
+                <button onclick="myAjax()" type="button" class="btn btn-info">Add</button>
+                <p id="demo"></p>
             </div>
         </div>
     </div>

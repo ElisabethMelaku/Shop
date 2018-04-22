@@ -48,37 +48,9 @@ function Objektumwandeln($ball ){
     $obj["name"] = $ball->getName();
     $obj["durchmesser"] = $ball->getDurchmesser();
     $obj["material"] = $ball->getMaterial();
-
+    $obj["volumen"] = $ball->calculateVolumen();
     return $obj;
 }
-
-if (isset($_GET["type"]) && $_GET["type"]=="json"){
-    header('Content-Type: application/json');
-    echo json_encode(arrayUmwandeln($items));
-} else {
-    header('Content-Type: text/html');
-    foreach ($items as $ball) {
-        if (isset($_GET["material"])) { //Material ist als Parameter gegeben, jetzt filtern wir
-
-            //Schau nach, ob das Material übereinstimmt mit dem was im Parameter steht
-            if (strcasecmp($ball->getMaterial(), $_GET["material"]) === 0) {
-                //Hänge das umgewandelte Objekt an das Ergebnis-Array an
-
-                echo $ball;
-                echo "<br>";
-            }
-        } else { //Material ist als Parameter nicht gegeben, also geben wir alle Bälle aus
-            //Hänge das umgewandelte Objekt an das Ergebnis-Array an
-
-            echo $ball;
-            echo "<br>";
-        }
-    }
-}
-//aufrufen
-//http://localhost/shops/index.php?type=json&material=gummi
-//http://localhost/shops/index.php?type=html&material=filz
-
 
 //fluid
 
@@ -94,23 +66,64 @@ $paths = $view->getTemplatePaths();
 // resolving normally done by the TemplatePaths and directly renders this file.
 $paths->setTemplatePathAndFilename(__DIR__ . '/templates/BallListe.html');
 
+
+if (isset($_GET["type"]) && $_GET["type"]=="json"){
+    header('Content-Type: application/json');
+    //als Json umwandeln
+    echo json_encode(arrayUmwandeln($items));
+} else {
+    header('Content-Type: text/html');
+    foreach ($items as $ball) {
+        if (isset($_GET["material"])) { //Material ist als Parameter gegeben, jetzt filtern wir
+
+            //Schau nach, ob das Material übereinstimmt mit dem was im Parameter steht
+            if (strcasecmp($ball->getMaterial(), $_GET["material"]) === 0) {
+                //Hänge das umgewandelte Objekt an das Ergebnis-Array an
+
+                echo $ball;
+                echo "<br>";
+
+                $view->assignMultiple(
+                    array (
+                        //"alle" =>$ball
+                        "Fussballname" => $ball->getName(),
+                        "Fussballmaterial" => $ball->getMaterial(),
+                        "Fussballdurchmesser" => $ball->getDurchmesser(),
+                        "Fussballvolumen" => $ball->calculateVolumen()
+                    )
+                );
+            }
+        } else { //Material ist als Parameter nicht gegeben, also geben wir alle Bälle aus
+            //Hänge das umgewandelte Objekt an das Ergebnis-Array an
+
+            echo $ball;
+            echo "<br>";
+        }
+    }
+}
+//aufrufen
+//http://localhost/shops/index.php?type=json&material=gummi
+//http://localhost/shops/index.php?type=html&material=filz
+
+
+
 // In this example we assign all our variables in one array. Alternative is
 // to repeatedly call $view->assign('name', 'value').
-$view->assignMultiple(
-    array (
-        "Fussballname" => $items[0]->getName(),
-        "Fussballmaterial" => $items[0]->getMaterial(),
-        "Fussballdurchmesser" => $items[0]->getDurchmesser(),
-
-        "Basketballname" => $items[3]->getName(),
-        "Basketballmaterial" => $items[3]->getMaterial(),
-        "Basketballdurchmesser" => $items[3]->getDurchmesser(),
-
-        "Tennisname" => $items[5]->getName(),
-        "Tennismaterial" => $items[5]->getMaterial(),
-        "Tennisdurchmesser" => $items[5]->getDurchmesser()
-    )
-);
+//$view->assignMultiple(
+//    array (
+//        "Fussballname" => $items[0]->getName(),
+//        "Fussballmaterial" => $items[0]->getMaterial(),
+//        "Fussballdurchmesser" => $items[0]->getDurchmesser(),
+//
+//        "Basketballname" => $items[3]->getName(),
+//        "Basketballmaterial" => $items[3]->getMaterial(),
+//        "Basketballdurchmesser" => $items[3]->getDurchmesser(),
+//
+//        "Tennisname" => $items[5]->getName(),
+//        "Tennismaterial" => $items[5]->getMaterial(),
+//        "Tennisdurchmesser" => $items[5]->getDurchmesser()
+//    )
+//);
 
 // Rendering the View: plain old rendering of single file, no bells and whistles.
 $output = $view->render();
