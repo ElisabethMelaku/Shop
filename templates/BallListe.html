@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="../ajax.php"></script>
+    <title>Title</title>
+</head>
+<body>
+
+    <script>
+
+        function Ajaxfunction(){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //letzte Aufgabe hier bearbeiten
+                    alert(this.responseText);
+                }
+            };
+            xmlhttp.open("GET", "ajax.php?q=", true);
+            xmlhttp.send();
+        }
+    </script>
+    <!--<f: for each="{arrayname}" as ="Ball">-->
+    <!--<li>{Ball}</li>-->
+    <!--</f:>-->
+
+    <!--<f:debug>{arrayname}</f:debug> -->
+
+    <div class="jumbotron text-center">
+        <h1>My First Bootstrap Page</h1>
+        <p>Resize this responsive page to see the effect!</p>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-5">
+                <h3>Bälle Liste: </h3>
+                <u>
+                    <li>{Fussballname}</li>
+                    <li>{Fussballmaterial}</li>
+                    <li>{Fussballdurchmesser}</li>
+                </u>
+            </div>
+
+            <div class="col-sm-5">
+                <h3>Ajax </h3>
+                <button onclick="Ajaxfunction()" type="button" class="btn btn-info">Add</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

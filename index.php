@@ -7,6 +7,8 @@
  */
 require "art.php";
 use Klasse\art as Klasse;
+require "./vendor/autoload.php";
+use TYPO3Fluid\Fluid;
 
 $items = [
     new Klasse\art("Fussball", 10, "Gummi"),
@@ -39,7 +41,7 @@ function arrayUmwandeln($array) {
     return $ergebnis;
 }
 
-////json
+//json
 
 function Objektumwandeln($ball ){
     $obj = [];
@@ -73,54 +75,49 @@ if (isset($_GET["type"]) && $_GET["type"]=="json"){
         }
     }
 }
+//aufrufen
+//http://localhost/shops/index.php?type=json&material=gummi
+//http://localhost/shops/index.php?type=html&material=filz
+
+
+//fluid
+
+// Initializing the View: rendering in Fluid takes place through a View instance
+// which contains a RenderingContext that in turn contains things like definitions
+// of template paths, instances of variable containers and similar.
+$view = new \TYPO3Fluid\Fluid\View\TemplateView();
+
+// TemplatePaths object: a subclass can be used if custom resolving is wanted.
+$paths = $view->getTemplatePaths();
+
+// Assigning the template path and filename to be rendered. Doing this overrides
+// resolving normally done by the TemplatePaths and directly renders this file.
+$paths->setTemplatePathAndFilename(__DIR__ . '/templates/BallListe.html');
+
+// In this example we assign all our variables in one array. Alternative is
+// to repeatedly call $view->assign('name', 'value').
+$view->assignMultiple(
+    array (
+        "Fussballname" => $items[0]->getName(),
+        "Fussballmaterial" => $items[0]->getMaterial(),
+        "Fussballdurchmesser" => $items[0]->getDurchmesser(),
+
+        "Basketballname" => $items[3]->getName(),
+        "Basketballmaterial" => $items[3]->getMaterial(),
+        "Basketballdurchmesser" => $items[3]->getDurchmesser(),
+
+        "Tennisname" => $items[5]->getName(),
+        "Tennismaterial" => $items[5]->getMaterial(),
+        "Tennisdurchmesser" => $items[5]->getDurchmesser()
+    )
+);
+
+// Rendering the View: plain old rendering of single file, no bells and whistles.
+$output = $view->render();
+
+echo $output;
 
 
 
 
 
-
-
-
-//---------------------
-//$myBall = new Klasse\art(
-//    "Fussball",
-//10,
-//"Gummi");
-//
-//$myFussball1 = new Klasse\art(
-//    "Fussball",
-//    10,
-//    "Gummi");
-//
-//$myFussball2 = new Klasse\art(
-//    "Fussball",
-//    14,
-//    "Filz");
-//
-//$myBasketball1 = new Klasse\art(
-//    "Basketball",
-//    10,
-//    "Gummi");
-//
-//$myBasketball2 = new Klasse\art(
-//    "Basketball",
-//    7,
-//    "Leder");
-//
-//$myTennisball1 = new Klasse\art(
-//    "Tennisball",
-//    3,
-//    "Gummi");
-//
-//$myTennisball2 = new Klasse\art(
-//    "Tennisball",
-//    5,
-//    "Leder");
-
-
-
-//$a = array(
-//    Objektumwandeln($myFussball1),
-//    Objektumwandeln($myBasketball1),
-//    Objektumwandeln($myTennisball1)
-//);

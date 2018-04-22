@@ -65,8 +65,7 @@ class art
             Name: $this->name <br />
             Material: $this->material <br />
             Durchmesser: $this->durchmesser <br />
-            Volumen: $tmp
-            <br />
+            Volumen: $tmp <br />
 EOT;
         return $rv;
     }
