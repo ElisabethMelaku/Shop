@@ -21,7 +21,7 @@ $items = [
     new Klasse\art("Tennisball", 5, "Leder")
 ];
 
-for ($i = 1; $i <= 4; $i++) {
+for ($i = 4; $i <= count($items)-1; $i++) {
     echo "\n";
     echo $i;
     echo "\n";

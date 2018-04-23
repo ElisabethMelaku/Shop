@@ -109,21 +109,24 @@ if (isset($_GET["type"]) && $_GET["type"]=="json"){
 
 // In this example we assign all our variables in one array. Alternative is
 // to repeatedly call $view->assign('name', 'value').
-//$view->assignMultiple(
-//    array (
-//        "Fussballname" => $items[0]->getName(),
-//        "Fussballmaterial" => $items[0]->getMaterial(),
-//        "Fussballdurchmesser" => $items[0]->getDurchmesser(),
-//
-//        "Basketballname" => $items[3]->getName(),
-//        "Basketballmaterial" => $items[3]->getMaterial(),
-//        "Basketballdurchmesser" => $items[3]->getDurchmesser(),
-//
-//        "Tennisname" => $items[5]->getName(),
-//        "Tennismaterial" => $items[5]->getMaterial(),
-//        "Tennisdurchmesser" => $items[5]->getDurchmesser()
-//    )
-//);
+$view->assignMultiple(
+    array (
+        "F1n" => $items[0]->getName(),
+        "F1m" => $items[0]->getMaterial(),
+        "F1d" => $items[0]->getDurchmesser(),
+        "F1v" => $items[0]->calculateVolumen(),
+
+        "b1n" => $items[3]->getName(),
+        "b1m" => $items[3]->getMaterial(),
+        "b1d" => $items[3]->getDurchmesser(),
+        "b1v" => $items[3]->calculateVolumen(),
+
+        "T1n" => $items[5]->getName(),
+        "T1m" => $items[5]->getMaterial(),
+        "T1d" => $items[5]->getDurchmesser(),
+        "T1v" => $items[5]->calculateVolumen()
+    )
+);
 
 // Rendering the View: plain old rendering of single file, no bells and whistles.
 $output = $view->render();
